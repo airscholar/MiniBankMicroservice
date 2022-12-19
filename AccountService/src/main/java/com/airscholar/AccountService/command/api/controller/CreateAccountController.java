@@ -1,14 +1,14 @@
 package com.airscholar.AccountService.command.api.controller;
 
 import com.airscholar.AccountService.command.api.commands.CreateAccountCommand;
+import com.airscholar.AccountService.command.api.data.Account;
 import com.airscholar.AccountService.command.api.data.AccountRepository;
 import com.airscholar.AccountService.command.api.dto.AccountDto;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.axonframework.queryhandling.QueryGateway;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -16,10 +16,12 @@ import java.util.UUID;
 public class CreateAccountController {
 
     private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
     private final AccountRepository accountRepository;
 
-    public CreateAccountController(CommandGateway commandGateway, AccountRepository accountRepository) {
+    public CreateAccountController(CommandGateway commandGateway, QueryGateway queryGateway, AccountRepository accountRepository) {
         this.commandGateway = commandGateway;
+        this.queryGateway = queryGateway;
         this.accountRepository = accountRepository;
     }
 
@@ -40,4 +42,13 @@ public class CreateAccountController {
         return "Account Created";
     }
 
+    @GetMapping
+    public List<Account> getAllAccounts() {
+        return accountRepository.findAll();
+    }
+
+    @GetMapping("/{accountId}")
+    public Account getAccountById(@PathVariable String accountId) {
+        return accountRepository.findById(accountId).get();
+    }
 }
