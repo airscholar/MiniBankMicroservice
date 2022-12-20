@@ -3,5 +3,9 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/AccountService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/AccountService/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/BankService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/BankService/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CommonService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CommonService/src/main/resources" charset="UTF-8" />
   </component>
 </project>

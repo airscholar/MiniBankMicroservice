@@ -1,6 +1,8 @@
 package com.airscholar.AccountService.command.api.aggregate;
 
 import com.airscholar.AccountService.command.api.commands.CreateAccountCommand;
+import com.airscholar.AccountService.command.api.events.CompleteBalanceUpdateEvent;
+import com.airscholar.CommonService.command.UpdateBalanceCommand;
 import com.airscholar.AccountService.command.api.events.AccountCreatedEvent;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AccountService/AccountService.iml" filepath="$PROJECT_DIR$/AccountService/AccountService.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/BankApp.iml" filepath="$PROJECT_DIR$/.idea/BankApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BankService/BankService.iml" filepath="$PROJECT_DIR$/BankService/BankService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CommonService/CommonService.iml" filepath="$PROJECT_DIR$/CommonService/CommonService.iml" />
     </modules>
   </component>
 </project>

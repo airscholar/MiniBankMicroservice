@@ -51,6 +51,16 @@
 			<artifactId>axon-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.airscholar</groupId>
+			<artifactId>CommonService</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.19</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
