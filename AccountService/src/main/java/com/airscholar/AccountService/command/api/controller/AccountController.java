@@ -5,8 +5,7 @@ import com.airscholar.AccountService.command.api.dto.AccountDto;
 import com.airscholar.AccountService.command.api.dto.TransactionDto;
 import com.airscholar.AccountService.data.Account;
 import com.airscholar.AccountService.data.AccountRepository;
-import com.airscholar.CommonService.command.DepositMoneyCommand;
-import com.airscholar.CommonService.enums.TransactionStatus;
+import com.airscholar.BankService.command.api.command.DepositMoneyCommand;
 import com.airscholar.CommonService.enums.TransactionType;
 import com.airscholar.CommonService.command.WithdrawMoneyCommand;
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +34,9 @@ public class AccountController {
 
     @PostMapping("/create")
     public String createAccount(@RequestBody AccountDto accountDto) {
-        String accountId = UUID.randomUUID().toString();
         CreateAccountCommand createAccountCommand = CreateAccountCommand.builder()
-                .accountId(accountId)
+                .transactionId(UUID.randomUUID().toString())
+                .accountId(UUID.randomUUID().toString())
                 .accountName(accountDto.getAccountName())
                 .accountBalance(accountDto.getAccountBalance())
                 .overdraftLimit(accountDto.getOverdraftLimit())

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 @Data
@@ -13,6 +12,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 @AllArgsConstructor
 public class CreateAccountCommand {
     @TargetAggregateIdentifier
+    private String transactionId;
     private String accountId;
     private String accountName;
     private Double accountBalance;

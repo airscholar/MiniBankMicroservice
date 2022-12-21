@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountCreatedEvent {
+    private String transactionId;
     private String accountId;
     private String accountName;
     private Double accountBalance;

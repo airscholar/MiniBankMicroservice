@@ -1,4 +1,4 @@
-package com.airscholar.AccountService.command.api.events;
+package com.airscholar.BankService.command.api.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,9 +8,10 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class CompleteBalanceUpdateEvent {
+@AllArgsConstructor
+public class UpdateBalanceCommand {
+    @TargetAggregateIdentifier
     private String transactionId;
     private String accountId;
     private Double amount;

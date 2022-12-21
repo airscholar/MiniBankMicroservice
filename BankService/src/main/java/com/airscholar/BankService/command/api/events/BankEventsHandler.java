@@ -2,14 +2,11 @@ package com.airscholar.BankService.command.api.events;
 
 import com.airscholar.BankService.command.api.data.JournalEntry;
 import com.airscholar.BankService.command.api.data.JournalEntryRepository;
-import com.airscholar.CommonService.command.DepositMoneyCommand;
-import com.airscholar.CommonService.command.WithdrawMoneyCommand;
 import com.airscholar.CommonService.events.CompleteDepositEvent;
 import com.airscholar.CommonService.events.DepositMoneyCreatedEvent;
 import com.airscholar.CommonService.events.WithdrawMoneyCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WithdrawMoneyCreatedEvent {
+    private String transactionId;
     private String accountId;
     private Double amount;
+    private String transactionDate;
+    private String transactionType;
+    private String transactionStatus;
 }

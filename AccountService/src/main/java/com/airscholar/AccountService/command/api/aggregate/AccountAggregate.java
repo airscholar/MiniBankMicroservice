@@ -1,8 +1,6 @@
 package com.airscholar.AccountService.command.api.aggregate;
 
 import com.airscholar.AccountService.command.api.commands.CreateAccountCommand;
-import com.airscholar.AccountService.command.api.events.CompleteBalanceUpdateEvent;
-import com.airscholar.CommonService.command.UpdateBalanceCommand;
 import com.airscholar.AccountService.command.api.events.AccountCreatedEvent;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -22,6 +20,7 @@ import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 public class AccountAggregate {
 
     @AggregateIdentifier
+    private String transactionId;
     private String accountId;
     private String accountName;
     private Double accountBalance;
@@ -42,11 +41,10 @@ public class AccountAggregate {
     @EventSourcingHandler
     public void on(AccountCreatedEvent accountCreatedEvent) {
         this.accountId = accountCreatedEvent.getAccountId();
+        this.transactionId = accountCreatedEvent.getTransactionId();
         this.accountName = accountCreatedEvent.getAccountName();
         this.accountBalance = accountCreatedEvent.getAccountBalance();
         this.creditLimit = accountCreatedEvent.getCreditLimit();
         this.overdraftLimit = accountCreatedEvent.getOverdraftLimit();
     }
 }
-
-
