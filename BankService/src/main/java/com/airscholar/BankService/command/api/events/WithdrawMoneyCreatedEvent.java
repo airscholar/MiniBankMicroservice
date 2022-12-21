@@ -1,19 +1,19 @@
-package com.airscholar.BankService.command.api.command;
+package com.airscholar.BankService.command.api.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompleteBalanceUpdateEvent {
+public class WithdrawMoneyCreatedEvent {
     private String transactionId;
     private String accountId;
     private Double amount;
-    private String transactionStatus;
+    private String transactionDate;
     private String transactionType;
+    private String transactionStatus;
 }

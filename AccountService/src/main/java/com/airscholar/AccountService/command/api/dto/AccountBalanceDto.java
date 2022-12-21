@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDto {
+public class AccountBalanceDto {
     private String accountId;
     private String accountName;
     private Double accountBalance;
-    private Double creditLimit;
-    private long overdraftLimit;
 }

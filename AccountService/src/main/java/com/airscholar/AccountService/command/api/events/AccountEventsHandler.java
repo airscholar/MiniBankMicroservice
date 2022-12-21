@@ -1,21 +1,25 @@
 package com.airscholar.AccountService.command.api.events;
 
-import com.airscholar.AccountService.data.AccountRepository;
+import com.airscholar.AccountService.command.api.service.AccountService;
 import com.airscholar.AccountService.data.Account;
-import com.airscholar.BankService.command.api.command.CompleteBalanceUpdateEvent;
+import com.airscholar.BankService.command.api.events.CompleteBalanceUpdateEvent;
+import com.airscholar.BankService.command.api.events.CancelDepositEvent;
+import com.airscholar.CommonService.enums.TransactionType;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 @Slf4j
 public class AccountEventsHandler {
 
-    private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
-    public AccountEventsHandler(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public AccountEventsHandler(AccountService accountService) {
+        this.accountService = accountService;
     }
 
     @EventHandler
@@ -23,22 +27,27 @@ public class AccountEventsHandler {
         Account account = new Account();
         BeanUtils.copyProperties(event, account);
 
-        accountRepository.save(account);
+        accountService.createAccount(account);
     }
 
     @EventHandler
     public void on(CompleteBalanceUpdateEvent event) {
-        log.info("CompleteBalanceUpdateEvent received for transactionId: {} and accountId: {}",
-                event.getTransactionId(), event.getAccountId());
-        Account account = accountRepository.findByAccountId(event.getAccountId());
+        Account account = accountService.getAccountByAccountId(event.getAccountId());
 
-        //check if the balance is going to go above credit limit
-        if(account.getAccountBalance() + event.getAmount() > account.getCreditLimit()) {
-            //TODO: throw error and start the compensation transaction
+        if (Objects.equals(event.getTransactionType(), String.valueOf(TransactionType.CREDIT))) {
+            account.setAccountBalance(account.getAccountBalance() + event.getAmount());
+        } else if (Objects.equals(event.getTransactionType(), String.valueOf(TransactionType.DEBIT))) {
+            account.setAccountBalance(account.getAccountBalance() - event.getAmount());
         }
 
-        account.setAccountBalance(account.getAccountBalance()+event.getAmount()); ;
-        log.info("Saving updated event in the DB: {}", account);
-        accountRepository.save(account);
+        accountService.updateAccount(account);
+    }
+
+    @EventHandler
+    public void on(CancelDepositEvent event){
+        log.info("CancelDepositEvent: from account service {}", event);
+        Account account = accountService.getAccountByAccountId(event.getAccountId());
+        account.setAccountBalance(account.getAccountBalance()-event.getTransactionAmount());
+        accountService.updateAccount(account);
     }
 }

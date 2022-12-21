@@ -11,13 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "journal_entries")
-public class JournalEntry {
+public class JournalEntry implements Comparable<JournalEntry> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -27,4 +28,9 @@ public class JournalEntry {
     private String transactionDate;
     private Double transactionAmount;
     private String transactionStatus;
+
+    @Override
+    public int compareTo(JournalEntry o) {
+        return this.getTransactionDate().compareTo(o.getTransactionDate());
+    }
 }
