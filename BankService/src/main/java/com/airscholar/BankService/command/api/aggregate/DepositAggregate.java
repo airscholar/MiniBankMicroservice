@@ -10,7 +10,7 @@ import com.airscholar.CommonService.enums.TransactionStatus;
 import com.airscholar.CommonService.enums.TransactionType;
 import com.airscholar.BankService.command.api.events.CancelDepositEvent;
 import com.airscholar.CommonService.events.CompleteDepositEvent;
-import com.airscholar.CommonService.events.DepositMoneyCreatedEvent;
+import com.airscholar.BankService.command.api.events.DepositMoneyCreatedEvent;
 import com.airscholar.BankService.command.api.events.WithdrawMoneyCreatedEvent;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -77,18 +77,18 @@ public class DepositAggregate {
     }
 
     @CommandHandler
-    public DepositAggregate(CancelDepositCommand cancelDepositCommand){
+    public void handle(CancelDepositCommand cancelDepositCommand){
         log.info("CancelDepositCommand Started for transaction Id: {}", cancelDepositCommand.getTransactionId());
 
         CancelDepositEvent cancelDepositEvent = CancelDepositEvent.builder()
                 .transactionId(cancelDepositCommand.getTransactionId())
-                .transactionStatus(String.valueOf(TransactionStatus.FAILED))
+                .transactionStatus(cancelDepositCommand.getTransactionStatus())
                 .transactionDate(cancelDepositCommand.getTransactionDate())
                 .transactionAmount(cancelDepositCommand.getTransactionAmount())
                 .accountId(cancelDepositCommand.getAccountId())
                 .transactionType(cancelDepositCommand.getTransactionType())
                 .build();
-        log.info("CancelDepositEvent published for transaction Id: {}", cancelDepositCommand.getTransactionId());
+
         apply(cancelDepositEvent);
     }
 

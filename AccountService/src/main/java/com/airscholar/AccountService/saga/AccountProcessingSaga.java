@@ -11,7 +11,7 @@ import com.airscholar.CommonService.command.CancelDepositCommand;
 import com.airscholar.CommonService.command.CompleteDepositCommand;
 import com.airscholar.CommonService.enums.TransactionStatus;
 import com.airscholar.CommonService.enums.TransactionType;
-import com.airscholar.CommonService.events.DepositMoneyCreatedEvent;
+import com.airscholar.BankService.command.api.events.DepositMoneyCreatedEvent;
 import com.airscholar.BankService.command.api.events.WithdrawMoneyCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -70,12 +70,14 @@ public class AccountProcessingSaga {
             if (accountDto == null) {
                 log.error("Account not found for transactionId: " + event.getTransactionId());
                 //start the compensating transaction
-                cancelDepositCommand(event.getTransactionId());
+                cancelDepositCommand(event);
+                return;
             }
         } catch (Exception e) {
             log.error(e.getMessage());
             //Start the Compensating transaction
-            cancelDepositCommand(event.getTransactionId());
+            cancelDepositCommand(event);
+            return;
         }
 
         UpdateBalanceCommand updateBalanceCommand = UpdateBalanceCommand.builder()
@@ -105,12 +107,14 @@ public class AccountProcessingSaga {
             if (accountDto == null) {
                 log.error("Account not found for transactionId: " + event.getTransactionId());
                 //start the compensating transaction
-                cancelWithdrawalCommand(event.getTransactionId());
+                cancelWithdrawalCommand(event);
+                return;
             }
         } catch (Exception e) {
             log.error(e.getMessage());
             //Start the Compensating transaction
-            cancelWithdrawalCommand(event.getTransactionId());
+            cancelWithdrawalCommand(event);
+            return;
         }
 
         UpdateBalanceCommand updateBalanceCommand = UpdateBalanceCommand.builder()
@@ -139,18 +143,24 @@ public class AccountProcessingSaga {
         commandGateway.sendAndWait(completeDepositCommand);
 
     }
-    private void cancelDepositCommand(String transactionId) {
+    private void cancelDepositCommand(DepositMoneyCreatedEvent event) {
         CancelDepositCommand cancelDepositCommand = CancelDepositCommand.builder()
-                .transactionId(transactionId)
+                .transactionId(event.getTransactionId())
+                .accountId(event.getAccountId())
+                .transactionAmount(event.getAmount())
+                .transactionDate(event.getTransactionDate())
                 .transactionStatus(String.valueOf(TransactionStatus.FAILED))
                 .build();
 
         log.info("Sending CancelDepositCommand to BankService: {}", cancelDepositCommand);
         commandGateway.sendAndWait(cancelDepositCommand);
     }
-    private void cancelWithdrawalCommand(String transactionId) {
+    private void cancelWithdrawalCommand(WithdrawMoneyCreatedEvent event) {
         CancelDepositCommand cancelDepositCommand = CancelDepositCommand.builder()
-                .transactionId(transactionId)
+                .transactionId(event.getTransactionId())
+                .accountId(event.getAccountId())
+                .transactionAmount(event.getAmount())
+                .transactionDate(event.getTransactionDate())
                 .transactionStatus(String.valueOf(TransactionStatus.FAILED))
                 .build();
 

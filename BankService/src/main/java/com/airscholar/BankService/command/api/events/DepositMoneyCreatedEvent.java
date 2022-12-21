@@ -1,4 +1,4 @@
-package com.airscholar.CommonService.events;
+package com.airscholar.BankService.command.api.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

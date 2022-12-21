@@ -43,11 +43,11 @@ public class AccountEventsHandler {
         accountService.updateAccount(account);
     }
 
-    @EventHandler
-    public void on(CancelDepositEvent event){
-        log.info("CancelDepositEvent: from account service {}", event);
-        Account account = accountService.getAccountByAccountId(event.getAccountId());
-        account.setAccountBalance(account.getAccountBalance()-event.getTransactionAmount());
-        accountService.updateAccount(account);
-    }
+//    @EventHandler
+//    public void on(CancelDepositEvent event){
+//        log.info("CancelDepositEvent: from account service {}", event);
+//        Account account = accountService.getAccountByAccountId(event.getAccountId());
+//        account.setAccountBalance(account.getAccountBalance()-event.getTransactionAmount());
+//        accountService.updateAccount(account);
+//    }
 }
